@@ -3,16 +3,18 @@ import './App.css';
 import { Button, Navbar, Container, Nav, Form, NavDropdown, Dropdown } from 'react-bootstrap';
 import data from './data.js';
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
+import Detail from './routes/Detail.js';
 
 function App() {
 
   let [games, setGames] = useState(data);
+  let navigate = useNavigate();
 
   return (
     <div className="App">
 
-      <Navbar bg="light" variant="light" fixed="top">
+      <Navbar bg="light" variant="light">
         <Container>
           <Navbar.Brand href="/">BShoppingmall</Navbar.Brand>
           <Nav className="me-auto">
@@ -27,10 +29,10 @@ function App() {
               <NavDropdown.Item href="#action/3.4">협동</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.5">블러핑</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link href="/recom">오늘의 추천</Nav.Link>
-            <Nav.Link href="/cart">장바구니</Nav.Link>
-            <Nav.Link href="/login">로그인</Nav.Link>
-            <Nav.Link href="/regis">회원가입</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/recom') }}>오늘의 추천</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/cart') }}>장바구니</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/login') }}>로그인</Nav.Link>
+            <Nav.Link onClick={()=>{ navigate('/regis') }}>회원가입</Nav.Link>
           </Nav>
           <Form className="d-flex">
             <Form.Control
@@ -43,6 +45,8 @@ function App() {
           </Form>
         </Container>
       </Navbar>
+
+
 
       <Routes>
         <Route path="/" element={
@@ -59,10 +63,9 @@ function App() {
           </div>
         } />
         <Route path="/cart" element={<div>찜목록</div>} />
+        <Route path="/detail" element={<Detail games={games} />} />
+        <Route path="*" element={<div>없는페이지입니다</div>} />
       </Routes>
-
-      
-      
 
     </div>
   );
@@ -76,7 +79,7 @@ function Card(props){
       <p>{props.games.price}</p>
       <p>{props.games.content}</p>
     </div>
-  )
+  );
 }
 
 export default App;
