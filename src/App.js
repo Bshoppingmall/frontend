@@ -5,6 +5,7 @@ import data from './data.js';
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
+import axios from 'axios';
 
 function App() {
 
@@ -52,7 +53,6 @@ function App() {
         <Route path="/" element={
           <div>
             <div className="main-bg"></div>
-
             <div className="container">
               <div className="row">
                 <Card games={games[0]} img={"1.jpg"}></Card>
@@ -60,10 +60,19 @@ function App() {
                 <Card games={games[2]} img={"3.png"}></Card>
               </div>
             </div>
+            {/* <button onClick={()=>{ 
+              axios.get('') // url에 get요청
+              .then((result.data)=>{ 
+                
+              })
+              .catch(()=>{ // get 실패시
+
+              })
+            }}>더보기</button> */}
           </div>
         } />
         <Route path="/cart" element={<div>찜목록</div>} />
-        <Route path="/detail" element={<Detail games={games} />} />
+        <Route path="/detail/:id" element={<Detail games={games} />} />
         <Route path="*" element={<div>없는페이지입니다</div>} />
       </Routes>
 
