@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
-
+import { addItem } from "./../store.js";
+import { useDispatch } from "react-redux";
 
 function Detail(props){
 
     let {id} = useParams();
     let 찾은상품 = props.games.find(x => x.id == id);
     let [탭, 탭변경] = useState(0);
+    let dispatch = useDispatch();
 
     return(
         <div className="container">
@@ -19,7 +21,9 @@ function Detail(props){
                     <h4 className="pt-5">{찾은상품.title}</h4>
                     <p>{찾은상품.content}</p>
                     <p>{찾은상품.price}</p>
-                    <button className="btn btn-danger">주문하기</button> 
+                    <button className="btn btn-danger" onClick={()=>{
+                        dispatch(addItem( {id: 1, name: '티츄', count: 1} ));
+                    }}>주문하기</button> 
                 </div>
             </div>
 

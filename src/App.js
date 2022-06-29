@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import Detail from './routes/Detail.js';
 import axios from 'axios';
+import Cart from './routes/Cart.js';
 
 function App() {
 
@@ -71,7 +72,7 @@ function App() {
             }}>더보기</button> */}
           </div>
         } />
-        <Route path="/cart" element={<div>찜목록</div>} />
+        <Route path="/cart" element={<Cart/>} />
         <Route path="/detail/:id" element={<Detail games={games} />} />
         <Route path="*" element={<div>없는페이지입니다</div>} />
       </Routes>
