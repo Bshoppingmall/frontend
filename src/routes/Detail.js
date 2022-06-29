@@ -22,7 +22,7 @@ function Detail(props){
                     <p>{찾은상품.content}</p>
                     <p>{찾은상품.price}</p>
                     <button className="btn btn-danger" onClick={()=>{
-                        dispatch(addItem( {id: 1, name: '티츄', count: 1} ));
+                        dispatch(addItem( {id: id, name: 찾은상품.title, count: 1} ));
                     }}>주문하기</button> 
                 </div>
             </div>

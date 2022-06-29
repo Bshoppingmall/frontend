@@ -12,9 +12,13 @@ let cart = createSlice({
         {id: 0, name: '티츄', count: 2},
         {id: 2, name: '할리갈리', count: 1},
     ],
-    reducers:{
-        addItem(state){
-            state.push({id: 1, name: '티츄', count: 1}),
+    reducers: {
+        addCount(state, action){
+            state[action.payload].count++
+        },
+        addItem(state, action){
+            let 번호 = state.findIndex((a)=>{return a.id === action.payload});
+            state[번호].count++;
         },
     }
 })
