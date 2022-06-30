@@ -10,11 +10,29 @@ import Cart from './routes/Cart.js';
 
 function App() {
 
+  
+
   let [games, setGames] = useState(data);
   let navigate = useNavigate();
+  let url = new URL(
+    `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:5000/wishlist?user_id=ju`
+  );
+  fetch(url)
+    .then((response) => {
+      if(response.ok) {
+        return response.json();
+      }  
+      throw new Error('Network response was not ok.');
+    }).then((data) => {
+      console.log(JSON.stringify(data));
+    }).catch((error) => {
+      console.log(`error: ${error}`)
+  });
+
 
   return (
     <div className="App">
+      
 
       <Navbar bg="light" variant="light">
         <Container>
