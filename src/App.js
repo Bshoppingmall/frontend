@@ -10,46 +10,57 @@ import Cart from './routes/Cart.js';
 
 function App() {
 
-  
-
   let [games, setGames] = useState(data);
+  let [search, setSearch] = useState('');
   let navigate = useNavigate();
-  let url = new URL(
-    `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:5000/wishlist?user_id=ju`
-  );
-  fetch(url)
-    .then((response) => {
-      if(response.ok) {
-        return response.json();
-      }  
-      throw new Error('Network response was not ok.');
-    }).then((data) => {
-      console.log(JSON.stringify(data));
-    }).catch((error) => {
-      console.log(`error: ${error}`)
-  });
+  let [url,setUrl] = useState(`http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/todays-product`);
+  
+  // 오늘의 추천
+  useEffect(()=>{
+    const fetchUsers = async () => {
+      try{
+        const response = await axios.get(url);
+        setGames(response.data.message);
+      }catch (e){
+        console.log("error: ", e);
+      }
+    };
+    fetchUsers();
+  },[url]);
+
+  
 
 
   return (
     <div className="App">
-      
-
       <Navbar bg="light" variant="light">
         <Container>
-          <Navbar.Brand href="/">BShoppingmall</Navbar.Brand>
+          <Navbar.Brand href="/" onClick={()=>{
+              setUrl('http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/todays-product');
+            }}>BShoppingmall</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/">홈</Nav.Link>
+            <Nav.Link href="/" onClick={()=>{
+              setUrl('http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/todays-product');
+            }}>홈</Nav.Link>
             <NavDropdown title="메뉴" id="basic-nav-dropdown">
               <Dropdown.ItemText>인원별</Dropdown.ItemText>
-              <NavDropdown.Item href="#action/3.1">2인</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">3~4인</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">5인 이상</NavDropdown.Item>
+              <NavDropdown.Item onClick={()=>{
+                setUrl(`http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=2`);
+              }}>2인</NavDropdown.Item>
+              <NavDropdown.Item onClick={()=>{
+                setUrl(`http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=3`);
+              }}>3인</NavDropdown.Item>
+              <NavDropdown.Item onClick={()=>{
+                setUrl(`http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=4`);
+              }}>4인</NavDropdown.Item>
+              <NavDropdown.Item onClick={()=>{
+                setUrl(`http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=5`);
+              }}>5인</NavDropdown.Item>
               <NavDropdown.Divider />
               <Dropdown.ItemText>장르별</Dropdown.ItemText>
-              <NavDropdown.Item href="#action/3.4">협동</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.5">블러핑</NavDropdown.Item>
+              <NavDropdown.Item >협동</NavDropdown.Item>
+              <NavDropdown.Item >블러핑</NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link onClick={()=>{ navigate('/recom') }}>오늘의 추천</Nav.Link>
             <Nav.Link onClick={()=>{ navigate('/cart') }}>장바구니</Nav.Link>
             <Nav.Link onClick={()=>{ navigate('/login') }}>로그인</Nav.Link>
             <Nav.Link onClick={()=>{ navigate('/regis') }}>회원가입</Nav.Link>
@@ -60,8 +71,11 @@ function App() {
               placeholder="Search"
               className="me-2"
               aria-label="Search"
+              onChange={(event)=>{setSearch(event.target.value)}}
             />
-            <Button variant="outline-success">Search</Button>
+            <Button variant="outline-success" onClick={()=>{
+              setUrl(`http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/searchbyname?name=`+search);
+            }}>Search</Button>
           </Form>
         </Container>
       </Navbar>
@@ -74,20 +88,15 @@ function App() {
             <div className="main-bg"></div>
             <div className="container">
               <div className="row">
-                <Card games={games[0]} img={"1.jpg"}></Card>
-                <Card games={games[1]} img={"2.jpeg"}></Card>
-                <Card games={games[2]} img={"3.png"}></Card>
+                {
+                  games.map((a, i)=>{
+                    return(
+                      <Card key={i} games={games[i]}></Card>
+                    )
+                  })
+                }
               </div>
             </div>
-            {/* <button onClick={()=>{ 
-              axios.get('') // url에 get요청
-              .then((result.data)=>{ 
-                
-              })
-              .catch(()=>{ // get 실패시
-
-              })
-            }}>더보기</button> */}
           </div>
         } />
         <Route path="/cart" element={<Cart/>} />
@@ -102,10 +111,10 @@ function App() {
 function Card(props){
   return(
     <div className="col-md-4">
-      <img src={process.env.PUBLIC_URL + '/' + props.img} width="150px" height="200px" alt="보드게임 사진"/>
-      <h5>{props.games.title}</h5>
+      <img src="#" width="150px" height="200px" alt="보드게임 사진"/>
+      <h5>{props.games.name}</h5>
       <p>{props.games.price}</p>
-      <p>{props.games.content}</p>
+      <p>재고: {props.games.stock}</p>
     </div>
   );
 }
