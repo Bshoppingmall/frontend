@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import { addItem } from "./../store.js";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 
 function Detail(props){
 
@@ -10,6 +11,14 @@ function Detail(props){
     // let 찾은상품 = props.games.find(x => x.id == id);
     let [탭, 탭변경] = useState(0);
     let dispatch = useDispatch();
+    
+    let [allGame, setAllGame] = useState('');
+    try {
+        const response = axios.get('');
+        setAllGame(response.data.message);
+      } catch (e) {
+        console.log("error: ", e);
+      }
 
     return(
         <div className="container">
@@ -21,11 +30,23 @@ function Detail(props){
                     <h4 className="pt-5">{props.games[id].name}</h4>
                     <p>재고: {props.games[id].stock}</p>
                     <p>가격: {props.games[id].price}</p>
-                    <button className="btn btn-danger" onClick={()=>{ }}>주문하기</button> 
+                    <button className="btn btn-danger" style={{marginRight: '5px'}} onClick={()=>{ 
+                        // axios({
+                        //     method: 'post',
+                        //     url: 'http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/add-wishlist',
+                        //     data: {
+                        //         user_id: 'id',
+                        //         product_id: id
+                        //     }
+                        // });
+                     }}>찜하기</button> 
+                    <button className="btn btn-danger" onClick={()=>{ 
+
+                     }}>주문하기</button> 
                 </div>
             </div>
 
-            <Nav variant="tabs" defaultActiveKey="link0">
+            <Nav variant="tabs" defaultActiveKey="link0" style={{marginBottom: '10px'}}>
                 <Nav.Item>
                     <Nav.Link onClick={()=>{ 탭변경(0); }} eventKey="link0">상세보기</Nav.Link>
                 </Nav.Item>
@@ -46,15 +67,15 @@ function Detail(props){
 function TabContent(props){
     if(props.탭 == 0){
         return (
-        <div>내용0</div>
+        <div>상세보기</div>
         )
     }else if(props.탭 == 1){
         return (
-        <div>내용1</div>
+        <div>후기</div>
         )
     }else if(props.탭 == 2){
         return (
-        <div>내용2</div>
+        <div>Q & A</div>
         )
     }
 }

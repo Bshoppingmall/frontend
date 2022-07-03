@@ -3,59 +3,51 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 
-function Cart(props){
+function Purchase(props){
 
     let state = useSelector((state)=>{return state});
     let dispatch = useDispatch();
 
-    let [cart, setCart] = useState(['']);
+    let [wish, setWish] = useState();
 
     useEffect(()=>{
         const fetchUsers = async () => {
           try{
             const response = await axios.get(
-              `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/show-basket?user_id=${props.id}`
+              `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/purchase-list?user_id=${props.id}`
             );
             console.log(response.data.message);
-            setCart(response.data.message);
+            setWish(response.data.message);
           }catch (e){
             console.log("error: ", e);
           }
         };
         fetchUsers();
-    },[]);
+      },[]);
 
     return (
         <div>
 
-            {props.id}의 장바구니
+            {props.id}의 구매목록
 
             <Table>
                 <thead>
                     <tr>
                         <th></th>
                         <th>상품명</th>
-                        <th>가격</th>
-                        <th>재고</th>
-                        <th>구매하기</th>
-                        <th>삭제하기</th>
+                        <th>구매 날짜</th>
+                        <th>배송현황</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        cart && cart.map((a, i)=>{
+                        wish && wish.map((a, i)=>{
                             return(
                                 <tr key={i}>
                                     <td>{i+1}</td>
-                                    <td>{cart[i].name}</td>
-                                    <td>{cart[i].price}원</td>
-                                    <td>{cart[i].stock}개</td>
-                                    <td><button onClick={()=>{
-
-                                    }}>+</button></td>
-                                    <td><button onClick={()=>{
-
-                                    }}>+</button></td>
+                                    <td>{wish[i].name}</td>
+                                    <td>{wish[i].order_date}</td>
+                                    <td>{wish[i].status}</td>
                                 </tr>
                             )
                         })
@@ -66,4 +58,4 @@ function Cart(props){
     )
 }
 
-export default Cart;
+export default Purchase;
