@@ -26,7 +26,7 @@ function App() {
   let [id, setId] = useState("ju");
   let navigate = useNavigate();
   let [url, setUrl] = useState(
-    `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/todays-product`
+    `http://ec2-13-209-12-2.ap-northeast-2.compute.amazonaws.com:3000/todays-product`
   );
 
   useEffect(() => {
@@ -71,7 +71,7 @@ function App() {
               <NavDropdown.Item
                 onClick={() => {
                   setUrl(
-                    `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=2`
+                    `http://ec2-13-209-12-2.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=2`
                   );
                 }}
               >
@@ -80,7 +80,7 @@ function App() {
               <NavDropdown.Item
                 onClick={() => {
                   setUrl(
-                    `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=3`
+                    `http://ec2-13-209-12-2.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=3`
                   );
                 }}
               >
@@ -89,7 +89,7 @@ function App() {
               <NavDropdown.Item
                 onClick={() => {
                   setUrl(
-                    `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=4`
+                    `http://ec2-13-209-12-2.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=4`
                   );
                 }}
               >
@@ -98,7 +98,7 @@ function App() {
               <NavDropdown.Item
                 onClick={() => {
                   setUrl(
-                    `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=5`
+                    `http://ec2-13-209-12-2.ap-northeast-2.compute.amazonaws.com:3000/category-people?people=5`
                   );
                 }}
               >
@@ -109,7 +109,7 @@ function App() {
               <NavDropdown.Item
                 onClick={() => {
                   setUrl(
-                    `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-type?type=전략`
+                    `http://ec2-13-209-12-2.ap-northeast-2.compute.amazonaws.com:3000/category-type?type=전략`
                   );
                 }}
               >
@@ -118,7 +118,7 @@ function App() {
               <NavDropdown.Item
                 onClick={() => {
                   setUrl(
-                    `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/category-type?type=협동`
+                    `http://ec2-13-209-12-2.ap-northeast-2.compute.amazonaws.com:3000/category-type?type=협동`
                   );
                 }}
               >

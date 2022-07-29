@@ -1,18 +1,18 @@
-import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import qs from 'qs';
 import React, { useEffect, useState } from "react";
 
 function SignUp() {
-  let [id, setId] = useState("");
-  let [pw, setPw] = useState("");
-  let [name, setName] = useState("");
-  let a = true;
+  const [id, setId] = useState("");
+  const [pw, setPw] = useState("");
+  const [name, setName] = useState("");
+
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          `http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/alluser`
+          `http://ec2-13-209-12-2.ap-northeast-2.compute.amazonaws.com:3000/alluser`
         );
         console.log(response.data.message);
       } catch (e) {
@@ -20,7 +20,7 @@ function SignUp() {
       }
     };
     fetchUsers();
-  }, [a]);
+  }, []);
 
   return (
     <div>
@@ -78,14 +78,24 @@ function SignUp() {
           type="button"
           id="button-addon2"
           onClick={()=>{
-            axios({
-                method: 'post',
-                url: 'http://ec2-3-35-173-137.ap-northeast-2.compute.amazonaws.com:3000/regist',
-                data: {
-                    id: 'id',
-                    pw: 'pw',
-                    name: 'name'
-                }
+            console.log(id, pw, name);
+            let userData ={
+              id: id,
+              pw: pw,
+              name: name,
+            };
+
+            console.log(qs.stringify(userData));
+            
+            axios.post('http://ec2-13-209-12-2.ap-northeast-2.compute.amazonaws.com:3000/regist', qs.stringify(userData), {
+              headers: {
+                "Content-Type": `application/x-www-form-urlencoded`,
+              },
+            })
+            .then((response) => {
+              console.log(response);
+            }).catch((error) => {
+              console.log(error.response.data);
             });
           }}
         >
